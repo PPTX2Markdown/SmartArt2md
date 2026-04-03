@@ -124,7 +124,7 @@ SmartArt 노드에 포함된 이미지는 `[(bytes, ext), ...]`로 분리 반환
 ![Slide 5](samples/sample_result/slide5.png) | <pre>- 1<br>  - 2<br>  - 3<br>- 4<br>  - 5<br>  - 6<br>  - 7</pre>
 ![Slide 6](samples/sample_result/slide6.png) | <pre>- 1<br>- 2<br>- 3<br>- 4</pre>
 ![Slide 7](samples/sample_result/slide7.png) | <pre>- 1<br>- 2<br>- 3</pre>
-![Slide 8](samples/sample_result/slide8.png) | <pre>- 1<br><br>  ![image](smartart2md_example_assets/part8_img0.png)<br>- 2<br>- 3<br>- 4</pre>
+![Slide 8](samples/sample_result/slide8.png) | <pre>- 1<br><br>  ![image](samples/sample_result/smartart2md_example_assets/part8_img0.png)<br>- 2<br>- 3<br>- 4</pre>
 
 ---
 
