@@ -2,10 +2,10 @@
 
 OOXML (Office Open XML) 파일에 포함된 SmartArt 다이어그램을 Markdown 리스트로 변환하는 순수 Python 패키지입니다. ECMA-376 표준을 기반으로 구현되었으며, 외부 의존성이 없습니다.
 
-## 설치(pip로 이용하려면)
+## 설치
 
 ```bash
-pip install -e .
+pip install smartart2md
 ```
 
 ## 두 가지 핵심 함수
@@ -32,25 +32,9 @@ for root, ctx in load_smartart_parts("presentation.pptx"):
     # images: [(bytes, ext), ...]
 ```
 
-### 코드 사용 예시 (`pip` 설치 유무에 따라)
+### 코드 사용 예시
 
-**1. `pip`로 패키지를 설치한 경우:**
 ```python
-from smartart2md import convert_smartart, load_smartart_parts
-
-for root, ctx in load_smartart_parts("presentation.pptx"):
-    md, images = convert_smartart(root, ctx)
-    print(md)
-```
-
-**2. 패키지 설치 없이 소스 코드를 직접 참조하는 경우:**
-```python
-import sys
-import os
-
-# 코드가 있는 모듈 경로를 상단에 추가
-sys.path.append(os.path.abspath("path/to/SmartArt2md"))
-
 from smartart2md import convert_smartart, load_smartart_parts
 
 for root, ctx in load_smartart_parts("presentation.pptx"):

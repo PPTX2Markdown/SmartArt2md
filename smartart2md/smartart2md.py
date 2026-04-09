@@ -1406,19 +1406,19 @@ def convert_smartart(
     root: ET.Element,
     ctx: Optional["ZipContext"] = None,
 ) -> "tuple[str, list[tuple[bytes, str]]]":
-    """SmartArt dataModel XML 루트 Element를 Markdown 문자열과 이미지 데이터 목록으로 변환한다.
+    """Convert a SmartArt dataModel XML root element to a Markdown list and image data.
 
     Args:
-        root: dgm:dataModel 루트 ET.Element.
-        ctx:  ZipContext 인스턴스. None이면 이미지 추출을 건너뛴다.
+        root: ``dgm:dataModel`` root ``ET.Element``.
+        ctx: ``ZipContext`` wrapping the source OOXML archive. Pass ``None``
+            to skip image extraction.
 
     Returns:
-        (markdown_str, raw_images) 튜플.
-        raw_images: [(bytes, ext), ...] — ctx가 None이거나 이미지가 없으면 빈 목록.
-
-    Examples:
-        >>> md, imgs = convert_smartart(datamodel_root, ctx)
-        >>> print(md)  # - 노드1\n  - 자노드1.1\n 형태
+        A ``(markdown_str, images)`` tuple. ``markdown_str`` is an indented
+        bullet list reflecting the diagram hierarchy. ``images`` is a list of
+        ``(bytes, ext)`` tuples for embedded images; their positions in the
+        Markdown are marked with ``@@IMG:N@@`` placeholders. Returns an empty
+        list if ``ctx`` is ``None`` or no images are present.
     """
     img_rids: list[str] = []   # 렌더링 순서대로 수집된 image rId 목록
     data_model = parse_dgm_CT_DataModel(root)
