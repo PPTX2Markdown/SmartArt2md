@@ -36,6 +36,8 @@ smartart2md input.pptx -o output.md     # save to file
 smartart2md diagram.xml                 # parse a dataModel XML directly
 ```
 
+When saving to a file with `-o output.md`, images embedded in SmartArt nodes are automatically saved to an `output_assets/` directory next to the output file, and placeholders in the Markdown are replaced with image links.
+
 ## API
 
 ### `load_smartart_parts(path)`

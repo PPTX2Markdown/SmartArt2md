@@ -12,9 +12,9 @@
 from __future__ import annotations
 
 import argparse
+import re
 import sys
-import xml.etree.ElementTree as ET
-from typing import Optional
+from pathlib import Path
 
 from .smartart2md import convert_smartart, load_smartart_parts
 from .ooxml_context import ZipContext, iter_parts_matching
@@ -31,10 +31,16 @@ def main() -> None:
         print("No SmartArt data found.", file=sys.stderr)
         sys.exit(1)
 
-    parts = []
+    parts_md: list[str] = []
+    global_images: list[tuple[bytes, str]] = []
+
     for root, ctx in contexts:
-        md, _imgs = convert_smartart(root, ctx)
-        parts.append(md)
+        md, images = convert_smartart(root, ctx)
+        for local_idx, img in enumerate(images):
+            global_idx = len(global_images)
+            global_images.append(img)
+            md = md.replace(f"@@IMG:{local_idx}@@", f"@@GIMG:{global_idx}@@")
+        parts_md.append(md)
 
     # 공유 ZipFile 닫기
     seen_zf: set[int] = set()
@@ -46,12 +52,28 @@ def main() -> None:
             except Exception:
                 pass
 
-    output = "\n---\n\n".join(parts)
-    if args.output:
-        with open(args.output, 'w', encoding='utf-8') as f:
-            f.write(output)
+    if args.output and global_images:
+        out_path = Path(args.output)
+        assets_dir = out_path.parent / (out_path.stem + "_assets")
+        assets_dir.mkdir(exist_ok=True)
+        for i, (data, ext) in enumerate(global_images):
+            (assets_dir / f"img{i}.{ext}").write_bytes(data)
+        parts_md = [
+            re.sub(
+                r"@@GIMG:(\d+)@@",
+                lambda m: f"![image]({assets_dir.name}/img{m.group(1)}.{global_images[int(m.group(1))][1]})",
+                md,
+            )
+            for md in parts_md
+        ]
     else:
-        print(output, end='')
+        parts_md = [re.sub(r"@@GIMG:\d+@@", "", md) for md in parts_md]
+
+    output = "\n---\n\n".join(parts_md)
+    if args.output:
+        Path(args.output).write_text(output, encoding="utf-8")
+    else:
+        print(output, end="")
 
 __all__ = [
     # CLI 진입점

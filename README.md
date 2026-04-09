@@ -54,6 +54,8 @@ smartart2md input.pptx -o output.md     # 파일로 저장
 smartart2md diagram.xml                 # dataModel XML 직접 입력
 ```
 
+`-o output.md`로 파일을 저장할 경우, SmartArt 노드에 포함된 이미지는 `output_assets/` 디렉터리에 자동으로 저장되며 Markdown 내 플레이스홀더는 이미지 링크로 대체됩니다.
+
 ---
 
 ## Full Pipeline 통합 — PPTX 전체를 MD로 변환할 때

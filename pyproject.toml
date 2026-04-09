@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "smartart2md"
-version = "0.1.0"
+version = "0.1.1"
 description = "Convert OOXML SmartArt diagrams to Markdown"
 readme = "README_pypi.md"
 requires-python = ">=3.9"
